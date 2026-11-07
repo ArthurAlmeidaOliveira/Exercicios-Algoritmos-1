@@ -122,10 +122,11 @@ void adicionarProdutos(int estoque[]) {
 
 // Opção 2: valida e realiza a venda de um produto
 void venderProdutos(int estoque[]) {
-    cout << "\n--- Vender produtos ---" << endl;
+    cout << "\n--- Vender produtos ---\n" << endl;
     int codigo = lerCodigo();
-    int quantidade = lerQuantidade();
     int i = codigo - 1;  // converte código (1-5) para índice (0-4)
+    cout << "Unidades do produto " << codigo << ": " << estoque[i] << "\n";
+    int quantidade = lerQuantidade();
 
     if (quantidade <= estoque[i]) {
         estoque[i] -= quantidade;
@@ -133,13 +134,13 @@ void venderProdutos(int estoque[]) {
         cout << "Venda realizada com sucesso! Foram vendidas "<< quantidade << " unidades o produto " << codigo << endl;
     } else {
         registrarOperacao("Venda", codigo, quantidade, estoque[i], "Recusada");
-        cout << "Erro: Estoque insuficiente! Estoque atual: " << estoque[i] << " itens." << endl;
+        cout << "Erro: Estoque insuficiente! Estoque atual do produto " << codigo <<": " << estoque[i] << " itens." << endl;
     }
 }
 
 // Mostra uma mensagem e espera o usuário apertar Enter para voltar ao menu
 void pausarParaMenu() {
-    cout << "\nPressione QUALQUER TECLA para voltar ao menu...";
+    cout << "\nPressione ENTER para voltar ao menu...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');  // descarta o Enter que sobrou da opção digitada
     cin.get();                                             // espera o novo Enter
     system("cls");
@@ -151,7 +152,8 @@ void exibirExtrato() {
     cout << "\n================== EXTRATO - ÚLTIMAS " << MAX_EXTRATO << " OPERAÇÕES ==================" << endl;
 
     if (totalOperacoes == 0) {
-        cout << "Nenhuma operação realizada até o momento." << endl;
+        cout << setw(14) << "" << "Nenhuma operação realizada até o momento.\n";
+        cout << "====================================================================\n";
         pausarParaMenu();
         return;
     }
@@ -189,6 +191,7 @@ void exibirExtrato() {
 
 // Opção 0: pergunta se o usuário realmente quer sair (s/n)
 bool confirmarSaida() {
+	system("cls");
     char resposta;
     do {
         cout << "Deseja realmente sair? (s/n): ";
